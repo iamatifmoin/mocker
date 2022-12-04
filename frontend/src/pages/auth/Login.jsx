@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [visibility, setVisibility] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,6 +25,9 @@ const Login = () => {
         toast.error(res.message);
       }
     });
+  };
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
   };
 
   return (
@@ -42,10 +47,23 @@ const Login = () => {
         label="password"
         size="small"
         value={password}
+        onFocus={() => setVisibility(true)}
         onChange={(e) => setPassword(e.target.value)}
-        type="password"
+        type={passwordShown ? "text" : "password"}
         fullWidth
       />
+      {visibility ? (
+        <Button
+          className="toggle"
+          onClick={togglePassword}
+          size="small"
+          onBlur={() => setVisibility(false)}
+        >
+          Show/Hide
+        </Button>
+      ) : (
+        ""
+      )}
       <Button
         variant="contained"
         sx={{ display: "block", mt: 2, mx: "auto" }}
