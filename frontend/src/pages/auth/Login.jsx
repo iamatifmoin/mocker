@@ -5,15 +5,12 @@ import { apiAuth } from "../../services/models/authModel";
 import { toast } from "react-hot-toast";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useState } from "react";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [visibility, setVisibility] = useState(false);
-
   const navigate = useNavigate();
-
+  const [visibility, setVisibility] = useState(false);
+  const [passwordShow, setPasswordShow] = useState(false);
   const initialValues = {
     email: "",
     password: "",
@@ -59,9 +56,6 @@ const Login = () => {
       }
     });
   };
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown);
-  };
 
   return (
     <React.Fragment>
@@ -79,6 +73,7 @@ const Login = () => {
         <TextField
           label="email"
           size="small"
+          type="email"
           sx={{ mb: 2 }}
           fullWidth
           name="email"
@@ -88,36 +83,28 @@ const Login = () => {
           error={Boolean(touched.email && errors.email)}
           helperText={touched.email && errors.email}
         />
-
         <TextField
           label="password"
           size="small"
-          onFocus={() => setVisibility(true)}
-          type={passwordShown ? "text" : "password"}
+          type={passwordShow ? "text" : "password"}
           fullWidth
           name="password"
           onBlur={handleBlur}
           onChange={handleChange}
+          onClick={() => setVisibility(true)}
           value={values.password || ""}
           error={Boolean(touched.password && errors.password)}
           helperText={touched.password && errors.password}
         />
-        {visibility ? (
-          <Button
-            className="toggle"
-            onClick={togglePassword}
-            size="small"
-            onBlur={() => setVisibility(false)}
-          >
-            Show/Hide
+
+        {visibility && (
+          <Button onClick={() => setPasswordShow(!passwordShow)}>
+            Hide/Show
           </Button>
-        ) : (
-          ""
         )}
         <Button
           variant="contained"
           sx={{ display: "block", mt: 2, mx: "auto" }}
-          onClick={loginUser}
           type="submit"
         >
           Login
