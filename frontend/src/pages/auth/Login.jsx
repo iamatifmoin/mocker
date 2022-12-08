@@ -87,22 +87,15 @@ const Login = () => {
         <TextField
           label="password"
           size="small"
-          type={passwordShow ? "text" : "password"}
+          type="password"
           fullWidth
           name="password"
           onBlur={handleBlur}
           onChange={handleChange}
-          onClick={() => setVisibility(true)}
           value={values.password || ""}
           error={Boolean(touched.password && errors.password)}
           helperText={touched.password && errors.password}
         />
-
-        {visibility && (
-          <Button onClick={() => setPasswordShow(!passwordShow)}>
-            Hide/Show
-          </Button>
-        )}
         <Button
           variant="contained"
           sx={{ display: "block", mt: 2, mx: "auto" }}
